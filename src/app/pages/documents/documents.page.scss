@@ -1,0 +1,75 @@
+.toolbar-grid {
+  @apply grid items-center gap-2;
+  grid-template-columns: minmax(220px, 1fr) 145px 125px 125px auto auto;
+
+  ion-searchbar {
+    @apply min-h-[42px] rounded-lg border border-app-border border-solid p-0;
+    --box-shadow: none;
+    --border-radius: 8px;
+    --background: var(--app-card);
+  }
+
+  ion-select {
+    @apply min-h-[42px] text-[0.78rem];
+  }
+
+  ion-button {
+    @apply m-0 h-[42px];
+  }
+}
+
+.view-switcher {
+  @apply flex h-[42px] overflow-hidden rounded-lg border border-app-border;
+
+  button {
+    @apply grid w-10 cursor-pointer place-items-center border-0 bg-app-card text-app-muted transition hover:bg-app-accent-soft;
+
+    &.active {
+      @apply bg-app-accent text-app-text;
+    }
+  }
+}
+
+.list-wrap {
+  @apply grid gap-2;
+}
+
+.list-heading {
+  @apply grid gap-4 px-4 text-[0.7rem] font-semibold text-app-muted;
+  grid-template-columns: 42px minmax(0, 2fr) 1fr 0.7fr 0.9fr 36px;
+}
+
+.empty-state {
+  @apply rounded-xl border border-dashed border-app-border border-solid px-4 py-12 text-center text-[0.84rem] text-app-muted;
+}
+
+@media (max-width: 1080px) {
+  .toolbar-grid {
+    grid-template-columns: minmax(200px, 1fr) repeat(3, 125px);
+
+    .view-switcher,
+    ion-button {
+      @apply justify-self-start;
+    }
+  }
+}
+
+@media (max-width: 720px) {
+  .toolbar-grid {
+    @apply grid-cols-2;
+
+    ion-searchbar {
+      @apply col-span-full;
+    }
+  }
+
+  .list-heading {
+    @apply hidden;
+  }
+}
+
+@media (max-width: 420px) {
+  .toolbar-grid {
+    @apply grid-cols-1;
+  }
+}

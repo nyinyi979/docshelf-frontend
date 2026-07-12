@@ -1,0 +1,202 @@
+@import '@ionic/angular/css/core.css';
+@import '@ionic/angular/css/normalize.css';
+@import '@ionic/angular/css/structure.css';
+@import '@ionic/angular/css/typography.css';
+@import '@ionic/angular/css/display.css';
+@import '@ionic/angular/css/padding.css';
+@import '@ionic/angular/css/flex-utils.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+  --radius: 0.625rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.22 0.03 258);
+  --surface: oklch(0.985 0.003 258);
+  --card: oklch(0.99 0 0);
+  --card-foreground: oklch(0.22 0.03 258);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.22 0.03 258);
+  --primary: oklch(0.42 0.11 258);
+  --primary-foreground: oklch(0.99 0.003 258);
+  --secondary: oklch(0.965 0.005 258);
+  --secondary-foreground: oklch(0.28 0.03 258);
+  --muted: oklch(0.965 0.005 258);
+  --muted-foreground: oklch(0.52 0.02 258);
+  --accent: oklch(0.955 0.012 258);
+  --accent-foreground: oklch(0.28 0.03 258);
+  --destructive: oklch(0.58 0.22 27);
+  --destructive-foreground: oklch(0.99 0.003 258);
+  --border: oklch(0.925 0.008 258);
+  --input: oklch(0.925 0.008 258);
+  --ring: oklch(0.42 0.11 258);
+  --sidebar: oklch(0.98 0.004 258);
+  --sidebar-foreground: oklch(0.28 0.02 258);
+  --sidebar-primary: oklch(0.42 0.11 258);
+  --sidebar-primary-foreground: oklch(0.99 0.003 258);
+  --sidebar-accent: oklch(0.945 0.01 258);
+  --sidebar-accent-foreground: oklch(0.28 0.03 258);
+  --sidebar-border: oklch(0.92 0.008 258);
+  --sidebar-ring: oklch(0.42 0.11 258);
+
+  /* Ionic tokens mapped onto the same React design system. */
+  --ion-font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --ion-background-color: var(--background);
+  --ion-text-color: var(--foreground);
+  --ion-card-background: var(--card);
+  --ion-item-background: transparent;
+  --ion-toolbar-background: var(--background);
+  --ion-border-color: var(--border);
+  --ion-color-primary: var(--primary);
+  --ion-color-primary-rgb: 52, 77, 119;
+  --ion-color-primary-contrast: var(--primary-foreground);
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: oklch(0.37 0.1 258);
+  --ion-color-primary-tint: oklch(0.48 0.1 258);
+  --ion-color-danger: var(--destructive);
+
+  /* Backwards-compatible aliases used by the converted page SCSS. */
+  --app-background: var(--background);
+  --app-surface: var(--surface);
+  --app-card: var(--card);
+  --app-sidebar: var(--sidebar);
+  --app-text: var(--foreground);
+  --app-muted-text: var(--muted-foreground);
+  --app-border: var(--border);
+  --app-accent: var(--sidebar-accent);
+  --app-accent-soft: var(--accent);
+}
+
+:root.dark {
+  color-scheme: dark;
+  --background: oklch(0.16 0.02 258);
+  --foreground: oklch(0.98 0.003 258);
+  --surface: oklch(0.2 0.02 258);
+  --card: oklch(0.2 0.02 258);
+  --card-foreground: oklch(0.98 0.003 258);
+  --popover: oklch(0.2 0.02 258);
+  --popover-foreground: oklch(0.98 0.003 258);
+  --primary: oklch(0.72 0.13 258);
+  --primary-foreground: oklch(0.16 0.02 258);
+  --secondary: oklch(0.26 0.02 258);
+  --secondary-foreground: oklch(0.98 0.003 258);
+  --muted: oklch(0.26 0.02 258);
+  --muted-foreground: oklch(0.7 0.02 258);
+  --accent: oklch(0.26 0.02 258);
+  --accent-foreground: oklch(0.98 0.003 258);
+  --destructive: oklch(0.7 0.19 22);
+  --destructive-foreground: oklch(0.98 0.003 258);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.72 0.13 258);
+  --sidebar: oklch(0.18 0.02 258);
+  --sidebar-foreground: oklch(0.98 0.003 258);
+  --sidebar-primary: oklch(0.72 0.13 258);
+  --sidebar-primary-foreground: oklch(0.16 0.02 258);
+  --sidebar-accent: oklch(0.26 0.02 258);
+  --sidebar-accent-foreground: oklch(0.98 0.003 258);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.72 0.13 258);
+  --ion-color-primary-rgb: 145, 174, 238;
+  --ion-color-primary-contrast-rgb: 22, 27, 39;
+}
+
+* {
+  box-sizing: border-box;
+  border-color: var(--border);
+}
+
+html,
+body,
+app-root,
+ion-app {
+  @apply h-full w-full;
+}
+ion-app, app-content{
+  --background: var(--background);
+}
+
+html {
+  background: var(--background);
+}
+
+body {
+  @apply m-0 bg-background font-sans text-foreground antialiased;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+@layer components {
+  .app-page {
+    --background: var(--background);
+  }
+
+  .page-container {
+    @apply mx-auto w-full px-4 py-4 sm:px-6 sm:py-6 lg:px-8 lg:py-8;
+    max-width: 1280px;
+  }
+
+  .page-stack {
+    @apply grid gap-5 lg:gap-8;
+  }
+
+  .document-grid {
+    @apply grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4;
+  }
+
+  .pagination {
+    @apply flex flex-wrap items-center justify-center gap-1 md:justify-end;
+
+    button {
+      @apply inline-flex min-h-[34px] items-center justify-center gap-1 rounded-lg border border-border bg-card px-2.5 py-1.5 text-[0.72rem] text-foreground transition hover:bg-accent disabled:cursor-default disabled:opacity-40;
+
+      &.number {
+        @apply w-[34px] px-0;
+      }
+
+      &.active {
+        @apply border-primary bg-primary text-primary-foreground;
+      }
+    }
+  }
+}
+
+ion-button {
+  text-transform: none;
+  --border-radius: 8px;
+  --box-shadow: none;
+}
+
+ion-input,
+ion-textarea,
+ion-select {
+  --border-radius: 8px;
+  --border-color: var(--input);
+  --highlight-color-focused: var(--ring);
+  --color: var(--foreground);
+  --placeholder-color: var(--muted-foreground);
+}
+
+ion-content::part(background) {
+  background: var(--background);
+}
+
+ion-modal,
+ion-alert,
+ion-popover {
+  --ion-background-color: var(--card);
+  --ion-text-color: var(--card-foreground);
+}

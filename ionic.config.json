@@ -1,0 +1,7 @@
+{
+  "name": "docshelf",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}

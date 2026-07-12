@@ -1,0 +1,63 @@
+<ion-content class="app-page">
+  <div class="page-container page-stack profile-page">
+    <section class="profile-grid">
+      <article class="identity-card">
+        <div class="avatar-wrap">
+          <span class="large-avatar">{{ currentUser.initials }}</span>
+          <button type="button" (click)="choosePhoto()" aria-label="Change photo">
+            <ion-icon name="camera-outline" />
+          </button>
+        </div>
+        <h2>{{ name }}</h2>
+        <p>{{ currentUser.email }}</p>
+        <ion-chip>{{ currentUser.role }}</ion-chip>
+      </article>
+
+      <form class="account-card" (ngSubmit)="save()">
+        <h2>Account details</h2>
+        <ion-input label="Full name" labelPlacement="stacked" fill="outline" [(ngModel)]="name" name="name" />
+        <ion-input
+          label="Email"
+          labelPlacement="stacked"
+          fill="outline"
+          [value]="currentUser.email"
+          readonly="true"
+          disabled="true"
+        />
+        <div class="password-grid">
+          <ion-input
+            label="Current password"
+            labelPlacement="stacked"
+            fill="outline"
+            type="password"
+            [(ngModel)]="currentPassword"
+            name="currentPassword"
+          />
+          <ion-input
+            label="New password"
+            labelPlacement="stacked"
+            fill="outline"
+            type="password"
+            [(ngModel)]="newPassword"
+            name="newPassword"
+          />
+          <ion-input
+            label="Confirm"
+            labelPlacement="stacked"
+            fill="outline"
+            type="password"
+            [(ngModel)]="confirmPassword"
+            name="confirmPassword"
+          />
+        </div>
+        <div class="form-action"><ion-button type="submit">Save changes</ion-button></div>
+      </form>
+    </section>
+
+    <section class="danger-zone">
+      <h2>Danger Zone</h2>
+      <p>Once deleted, your account and all associated documents cannot be recovered.</p>
+      <ion-button color="danger" (click)="confirmDelete()">Delete account</ion-button>
+    </section>
+  </div>
+</ion-content>

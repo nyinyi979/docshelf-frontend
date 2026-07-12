@@ -1,0 +1,92 @@
+.welcome {
+  h2 {
+    @apply m-0 tracking-[-0.035em];
+    font-size: clamp(1.45rem, 3vw, 1.8rem);
+  }
+
+  p {
+    @apply mb-0 mt-1.5 text-[0.88rem] text-app-muted;
+  }
+}
+
+.stats-grid {
+  @apply grid grid-cols-2 gap-3 lg:grid-cols-4;
+}
+
+.stat-card {
+  @apply rounded-[11px] border border-app-border border-solid bg-app-card p-4;
+
+  div {
+    @apply flex items-center justify-between gap-2 text-[0.72rem] text-app-muted;
+  }
+
+  strong {
+    @apply mt-2 block text-2xl tracking-[-0.03em];
+  }
+}
+
+.section-heading {
+  @apply mb-3 flex items-center justify-between;
+
+  h3 {
+    @apply m-0 text-[0.86rem];
+  }
+
+  a {
+    @apply text-[0.75rem] text-primary no-underline hover:underline;
+  }
+}
+
+.section-title {
+  @apply mb-3 mt-0 text-[0.86rem];
+}
+
+.category-strip {
+  @apply flex gap-2 overflow-x-auto pb-1.5;
+
+  ion-chip {
+    @apply m-0 h-9 shrink-0 bg-app-card text-[0.76rem] text-app-text;
+  }
+
+  span {
+    @apply ml-1 text-[0.68rem] text-app-muted;
+  }
+}
+
+.activity-card {
+  @apply overflow-hidden rounded-[11px] border border-app-border border-solid bg-app-card;
+}
+
+.activity-row {
+  @apply flex items-center gap-3 px-4 py-3.5;
+
+  &.with-border {
+    @apply border-t border-app-border;
+  }
+
+  time {
+    @apply shrink-0 text-[0.7rem] text-app-muted;
+  }
+}
+
+.activity-avatar {
+  @apply grid h-[34px] w-[34px] shrink-0 place-items-center rounded-full bg-app-accent text-[0.68rem] font-bold;
+}
+
+.activity-copy {
+  @apply min-w-0 flex-1 text-[0.8rem];
+
+  span {
+    @apply mx-1 text-app-muted;
+  }
+}
+
+@media (max-width: 520px) {
+  .activity-row {
+    @apply items-start;
+  }
+
+  .activity-copy {
+    @apply leading-[1.45];
+  }
+}

@@ -1,0 +1,24 @@
+<ion-content class="app-page">
+  <div class="page-container">
+    <div class="category-grid">
+      @for (category of categories; track category.name) {
+        <article class="category-card">
+          <div class="category-heading">
+            <span><ion-icon name="folder-open-outline" /></span>
+            <div>
+              <h2>{{ category.name }}</h2>
+              <p>{{ category.count }} documents</p>
+            </div>
+          </div>
+          <ul>
+            @for (doc of store.documents().slice(0, 50); track doc.id) {
+              @if (doc.category === category.name) {
+                <li><a [routerLink]="['/documents', doc.id]">{{ doc.title }}</a></li>
+              }
+            }
+          </ul>
+        </article>
+      }
+    </div>
+  </div>
+</ion-content>

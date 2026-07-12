@@ -1,0 +1,113 @@
+<ion-content class="app-page">
+  <div class="page-container page-stack documents-page">
+    <div class="toolbar-grid">
+      <ion-searchbar
+        mode="md"
+        placeholder="Search documents..."
+        [value]="query()"
+        (ionInput)="setQuery($any($event).detail.value)"
+      />
+
+      <ion-select
+        interface="popover"
+        fill="outline"
+        aria-label="Category"
+        [value]="category()"
+        (ionChange)="setCategory($event.detail.value)"
+      >
+        <ion-select-option value="all">All categories</ion-select-option>
+        @for (item of categories; track item.name) {
+          <ion-select-option [value]="item.name">{{ item.name }}</ion-select-option>
+        }
+      </ion-select>
+
+      <ion-select
+        interface="popover"
+        fill="outline"
+        aria-label="Tag"
+        [value]="tag()"
+        (ionChange)="setTag($event.detail.value)"
+      >
+        <ion-select-option value="all">All tags</ion-select-option>
+        @for (item of allTags; track item) {
+          <ion-select-option [value]="item">{{ item }}</ion-select-option>
+        }
+      </ion-select>
+
+      <ion-select
+        interface="popover"
+        fill="outline"
+        aria-label="Sort"
+        [value]="sort()"
+        (ionChange)="setSort($event.detail.value)"
+      >
+        <ion-select-option value="newest">Newest</ion-select-option>
+        <ion-select-option value="oldest">Oldest</ion-select-option>
+        <ion-select-option value="name">Name</ion-select-option>
+      </ion-select>
+
+      <div class="view-switcher">
+        <button type="button" [class.active]="view() === 'grid'" (click)="view.set('grid')" aria-label="Grid view">
+          <ion-icon name="grid-outline" />
+        </button>
+        <button type="button" [class.active]="view() === 'list'" (click)="view.set('list')" aria-label="List view">
+          <ion-icon name="list-outline" />
+        </button>
+      </div>
+
+      <ion-button size="small" (click)="uploadOpen.set(true)">
+        <ion-icon slot="start" name="cloud-upload-outline" />
+        Upload
+      </ion-button>
+    </div>
+
+    @if (paged().length) {
+      @if (view() === 'grid') {
+        <div class="document-grid">
+          @for (doc of paged(); track doc.id) {
+            <app-document-card
+              [doc]="doc"
+              (bookmarkToggle)="store.toggleBookmark($event)"
+              (deleteRequested)="deleteDocument($event)"
+            />
+          }
+        </div>
+      } @else {
+        <div class="list-wrap">
+          <div class="list-heading">
+            <span></span><span>Name</span><span>Category</span><span>Size</span><span>Date</span><span></span>
+          </div>
+          @for (doc of paged(); track doc.id) {
+            <app-document-card
+              [doc]="doc"
+              mode="row"
+              (bookmarkToggle)="store.toggleBookmark($event)"
+            />
+          }
+        </div>
+      }
+    } @else {
+      <div class="empty-state">No documents match your filters.</div>
+    }
+
+    @if (totalPages() > 1) {
+      <nav class="pagination" aria-label="Document pages">
+        <button type="button" (click)="changePage(page() - 1)" [disabled]="page() === 1">
+          <ion-icon name="chevron-back-outline" />
+          Previous
+        </button>
+        @for (number of [].constructor(totalPages()); track $index) {
+          <button type="button" class="number" [class.active]="$index + 1 === page()" (click)="changePage($index + 1)">
+            {{ $index + 1 }}
+          </button>
+        }
+        <button type="button" (click)="changePage(page() + 1)" [disabled]="page() === totalPages()">
+          Next
+          <ion-icon name="chevron-forward-outline" />
+        </button>
+      </nav>
+    }
+  </div>
+
+  <app-upload-modal [open]="uploadOpen()" (closed)="uploadOpen.set(false)" />
+</ion-content>

@@ -1,0 +1,116 @@
+.profile-grid {
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  gap: 1rem;
+}
+
+.identity-card,
+.account-card,
+.danger-zone {
+  padding: 1.5rem;
+  border: 1px solid var(--app-border);
+  border-radius: 12px;
+  background: var(--app-card);
+}
+
+.identity-card {
+  text-align: center;
+
+  h2 {
+    margin: 0.9rem 0 0;
+    font-size: 1rem;
+  }
+
+  p {
+    margin: 0.25rem 0 0.7rem;
+    color: var(--app-muted-text);
+    font-size: 0.78rem;
+  }
+
+  ion-chip {
+    height: 28px;
+    margin: 0;
+    font-size: 0.7rem;
+  }
+}
+
+.avatar-wrap {
+  position: relative;
+  width: 96px;
+  height: 96px;
+  margin: 0 auto;
+
+  button {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    display: grid;
+    width: 32px;
+    height: 32px;
+    border: 1px solid var(--app-border);
+    border-radius: 50%;
+    place-items: center;
+    color: var(--app-muted-text);
+    background: var(--app-card);
+    cursor: pointer;
+  }
+}
+
+.large-avatar {
+  display: grid;
+  width: 96px;
+  height: 96px;
+  place-items: center;
+  border-radius: 50%;
+  color: var(--ion-color-primary-contrast);
+  background: var(--ion-color-primary);
+  font-size: 1.45rem;
+  font-weight: 700;
+}
+
+.account-card {
+  display: grid;
+  gap: 1rem;
+
+  h2 {
+    margin: 0;
+    font-size: 0.86rem;
+  }
+}
+
+.password-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.form-action {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.danger-zone {
+  border-color: color-mix(in srgb, var(--ion-color-danger) 40%, var(--app-border));
+
+  h2 {
+    margin: 0;
+    color: var(--ion-color-danger);
+    font-size: 0.86rem;
+  }
+
+  p {
+    margin: 0.35rem 0 0.9rem;
+    color: var(--app-muted-text);
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 800px) {
+  .profile-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .password-grid {
+    grid-template-columns: 1fr;
+  }
+}

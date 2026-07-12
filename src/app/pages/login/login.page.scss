@@ -1,0 +1,19 @@
+.auth-form {
+  @apply grid gap-4;
+
+  p {
+    @apply m-0 text-center text-[0.8rem] text-app-muted;
+  }
+
+  a {
+    @apply text-primary no-underline hover:underline;
+  }
+}
+
+.password-heading {
+  @apply mb-2 flex items-center justify-between text-[0.75rem] font-semibold;
+
+  a {
+    @apply text-[0.7rem] font-normal;
+  }
+}

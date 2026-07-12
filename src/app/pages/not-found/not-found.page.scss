@@ -1,0 +1,20 @@
+.not-found {
+  @apply grid min-h-full place-items-center p-4 text-center;
+
+  > div {
+    @apply w-full;
+    max-width: 450px;
+  }
+
+  strong {
+    @apply text-[5rem] tracking-[-0.06em];
+  }
+
+  h1 {
+    @apply mb-0 mt-2 text-[1.3rem];
+  }
+
+  p {
+    @apply mb-4 mt-2 text-[0.84rem] text-app-muted;
+  }
+}

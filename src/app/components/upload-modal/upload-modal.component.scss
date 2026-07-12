@@ -1,0 +1,102 @@
+:host {
+  display: contents;
+}
+
+ion-modal {
+  --width: min(560px, calc(100vw - 24px));
+  --height: min(780px, calc(100vh - 32px));
+  --border-radius: 16px;
+}
+
+.modal-description {
+  @apply mb-4 mt-0 text-[0.85rem] text-app-muted;
+}
+
+.drop-zone {
+  @apply rounded-xl border-2 border-dashed border-app-border border-solid p-7 text-center transition duration-150;
+
+  &.drag-over {
+    @apply border-primary bg-app-accent-soft;
+  }
+
+  ion-icon {
+    @apply text-[2.2rem] text-app-muted;
+  }
+
+  p {
+    @apply mb-1 mt-2 text-[0.86rem];
+  }
+
+  label {
+    @apply cursor-pointer text-[0.84rem] text-primary;
+  }
+
+  input {
+    @apply hidden;
+  }
+}
+
+.form-stack {
+  @apply mt-4 grid gap-4;
+}
+
+.two-column {
+  @apply grid grid-cols-1 gap-3 sm:grid-cols-2;
+}
+
+.visibility-item {
+  @apply rounded-lg border border-app-border;
+  --min-height: 58px;
+  --padding-start: 0.8rem;
+  --inner-padding-end: 0.8rem;
+
+  ion-toggle {
+    @apply w-full;
+  }
+
+  span,
+  small {
+    @apply block;
+  }
+
+  small {
+    @apply mt-0.5 text-app-muted;
+  }
+}
+
+.field-label {
+  @apply mb-2 block text-[0.78rem] font-semibold;
+}
+
+.tag-picker,
+.selected-tags {
+  @apply flex flex-wrap gap-1.5;
+}
+
+.tag-picker button {
+  @apply cursor-pointer rounded-full border border-app-border border-solid bg-transparent px-3 py-1.5 text-[0.72rem] text-app-text transition hover:bg-app-accent-soft;
+
+  &.active {
+    @apply border-primary bg-primary text-primary-contrast;
+  }
+}
+
+.selected-tags {
+  @apply mt-2;
+
+  ion-chip {
+    @apply m-0 h-[26px] text-[0.7rem];
+  }
+}
+
+.progress-wrap {
+  @apply grid gap-1.5;
+
+  small {
+    @apply text-app-muted;
+  }
+}
+
+.modal-actions {
+  @apply flex justify-end gap-2;
+}

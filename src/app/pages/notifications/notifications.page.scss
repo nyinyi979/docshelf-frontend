@@ -1,0 +1,61 @@
+.notifications-container {
+  @apply mx-auto w-full px-4 py-4 sm:px-6 sm:py-6 lg:px-8 lg:py-8;
+  max-width: 760px;
+}
+
+.notification-summary {
+  @apply flex items-center justify-between gap-4;
+
+  p {
+    @apply m-0 text-[0.82rem] text-app-muted;
+  }
+}
+
+.notification-list {
+  @apply overflow-hidden rounded-xl border border-app-border border-solid bg-app-card;
+
+  button {
+    @apply flex w-full cursor-pointer items-start gap-3 border-0 bg-transparent p-4 text-left text-app-text transition hover:bg-app-accent;
+
+    &.with-border {
+      @apply border-t border-app-border;
+    }
+
+    &.unread {
+      @apply bg-app-accent-soft;
+    }
+  }
+}
+
+.notification-icon {
+  @apply grid h-[38px] w-[38px] shrink-0 place-items-center rounded-[9px] bg-app-accent text-app-muted;
+}
+
+.notification-copy {
+  @apply min-w-0 flex-1;
+
+  strong,
+  small {
+    @apply block;
+  }
+
+  strong {
+    @apply text-[0.8rem] font-medium leading-[1.45];
+  }
+
+  small {
+    @apply mt-1 text-[0.7rem] text-app-muted;
+  }
+}
+
+.unread-dot {
+  @apply mt-2 h-2 w-2 shrink-0 rounded-full bg-primary;
+}
+
+.empty-notifications {
+  @apply rounded-xl border border-dashed border-app-border border-solid px-4 py-12 text-center text-app-muted;
+
+  ion-icon {
+    @apply text-[2rem];
+  }
+}

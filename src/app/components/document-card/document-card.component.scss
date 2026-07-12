@@ -1,0 +1,111 @@
+:host {
+  @apply block min-w-0;
+}
+
+.document-card {
+  @apply flex min-h-[205px] flex-col rounded-xl border border-solid border-app-border bg-app-card p-4 transition duration-150 hover:-translate-y-px hover:shadow-card;
+}
+
+.card-topline,
+.card-footer {
+  @apply flex items-center justify-between gap-3;
+}
+
+.file-icon {
+  @apply grid h-[42px] w-[42px] shrink-0 place-items-center rounded-[9px] bg-app-accent text-slate-600;
+
+  &[data-type='pdf'] {
+    @apply bg-red-50 text-red-600;
+  }
+
+  &[data-type='doc'] {
+    @apply bg-blue-50 text-blue-600;
+  }
+
+  &[data-type='xlsx'] {
+    @apply bg-emerald-50 text-emerald-600;
+  }
+}
+
+ion-button {
+  --padding-start: 0.45rem;
+  --padding-end: 0.45rem;
+  --color: var(--app-muted-text);
+  min-height: 32px;
+}
+
+.bookmarked {
+  @apply text-primary;
+}
+
+.ellipsis {
+  @apply -translate-y-0.5 font-extrabold tracking-[0.08em];
+}
+
+.document-copy {
+  @apply mt-3 block min-w-0 text-inherit no-underline;
+
+  h3 {
+    @apply m-0 truncate text-[0.92rem] font-bold;
+  }
+
+  p {
+    @apply mb-0 mt-1.5 line-clamp-2 text-[0.78rem] leading-[1.45] text-app-muted;
+  }
+}
+
+.card-footer {
+  @apply mt-auto pt-4 text-[0.7rem] text-app-muted;
+
+  ion-chip {
+    @apply m-0 h-[25px] bg-app-accent px-2.5 text-[0.7rem] text-app-text;
+  }
+}
+
+.document-row {
+  @apply grid min-h-16 items-center gap-4 rounded-[10px] border border-app-border border-solid bg-app-card px-4 py-2.5 text-inherit no-underline transition hover:bg-app-accent-soft;
+  grid-template-columns: auto minmax(0, 2fr) 1fr 0.7fr 0.9fr auto;
+
+  .file-icon {
+    @apply h-[38px] w-[38px];
+  }
+}
+
+.row-title {
+  @apply min-w-0;
+
+  strong,
+  small {
+    @apply block truncate;
+  }
+
+  strong {
+    @apply text-[0.86rem];
+  }
+
+  small {
+    @apply mt-0.5 hidden text-[0.72rem] text-app-muted;
+  }
+}
+
+.row-meta {
+  @apply text-[0.8rem] text-app-muted;
+}
+
+.danger {
+  --color: var(--ion-color-danger);
+}
+
+@media (max-width: 720px) {
+  .document-row {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+  }
+
+  .row-title small {
+    @apply block;
+  }
+
+  .row-meta {
+    @apply hidden;
+  }
+}

@@ -1,0 +1,11 @@
+.auth-form {
+  @apply grid gap-4;
+
+  p {
+    @apply m-0 text-center text-[0.8rem] text-app-muted;
+  }
+
+  a {
+    @apply text-primary no-underline hover:underline;
+  }
+}

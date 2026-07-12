@@ -1,0 +1,79 @@
+@if (mode() === 'card') {
+  <article class="document-card">
+    <div class="card-topline">
+      <span class="file-icon" [attr.data-type]="doc().fileType">
+        <ion-icon [name]="iconName" />
+      </span>
+      <ion-buttons>
+        <ion-button fill="clear" size="small" (click)="bookmarkToggle.emit(doc().id)" aria-label="Toggle bookmark">
+          <ion-icon
+            slot="icon-only"
+            [name]="doc().bookmarked ? 'bookmark' : 'bookmark-outline'"
+            [class.bookmarked]="doc().bookmarked"
+          />
+        </ion-button>
+        <ion-button fill="clear" size="small" [id]="menuId" aria-label="More actions">
+          <span class="ellipsis">•••</span>
+        </ion-button>
+      </ion-buttons>
+    </div>
+
+    <a class="document-copy" [routerLink]="['/documents', doc().id]">
+      <h3>{{ doc().title }}</h3>
+      <p>{{ doc().description }}</p>
+    </a>
+
+    <div class="card-footer">
+      <ion-chip>{{ doc().category }}</ion-chip>
+      <span>{{ doc().fileSize }} · {{ doc().createdAt }}</span>
+    </div>
+
+    <ion-popover [trigger]="menuId" triggerAction="click" dismissOnSelect="true">
+      <ng-template>
+        <ion-list lines="none">
+          <ion-item button [routerLink]="['/documents', doc().id]">
+            <ion-icon slot="start" name="eye-outline" />
+            <ion-label>View</ion-label>
+          </ion-item>
+          <ion-item button (click)="download()">
+            <ion-icon slot="start" name="download-outline" />
+            <ion-label>Download</ion-label>
+          </ion-item>
+          <ion-item button (click)="share()">
+            <ion-icon slot="start" name="share-social-outline" />
+            <ion-label>Share</ion-label>
+          </ion-item>
+          <ion-item button class="danger" (click)="deleteRequested.emit(doc().id)">
+            <ion-icon slot="start" name="trash-outline" />
+            <ion-label>Delete</ion-label>
+          </ion-item>
+        </ion-list>
+      </ng-template>
+    </ion-popover>
+  </article>
+} @else {
+  <a class="document-row" [routerLink]="['/documents', doc().id]">
+    <span class="file-icon" [attr.data-type]="doc().fileType">
+      <ion-icon [name]="iconName" />
+    </span>
+    <span class="row-title">
+      <strong>{{ doc().title }}</strong>
+      <small>{{ doc().category }} · {{ doc().fileSize }}</small>
+    </span>
+    <span class="row-meta category">{{ doc().category }}</span>
+    <span class="row-meta">{{ doc().fileSize }}</span>
+    <span class="row-meta">{{ doc().createdAt }}</span>
+    <ion-button
+      fill="clear"
+      size="small"
+      (click)="$event.preventDefault(); $event.stopPropagation(); bookmarkToggle.emit(doc().id)"
+      aria-label="Toggle bookmark"
+    >
+      <ion-icon
+        slot="icon-only"
+        [name]="doc().bookmarked ? 'bookmark' : 'bookmark-outline'"
+        [class.bookmarked]="doc().bookmarked"
+      />
+    </ion-button>
+  </a>
+}
