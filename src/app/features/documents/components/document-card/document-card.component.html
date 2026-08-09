@@ -1,0 +1,113 @@
+@if (mode() === 'card') {
+  <article class="document-card">
+    <div class="card-topline">
+      <span class="file-icon" [attr.data-type]="doc().fileType">
+        <ion-icon [name]="iconName" />
+      </span>
+      <ion-buttons>
+        <ion-button
+          fill="clear"
+          size="small"
+          [disabled]="bookmarkPending()"
+          (click)="bookmarkToggle.emit(doc().id)"
+          aria-label="Toggle bookmark"
+        >
+          @if (bookmarkPending()) {
+            <ion-spinner slot="icon-only" name="crescent" />
+          } @else {
+            <ion-icon
+              slot="icon-only"
+              [name]="doc().bookmarked ? 'bookmark' : 'bookmark-outline'"
+              [class.bookmarked]="doc().bookmarked"
+            />
+          }
+        </ion-button>
+        <!-- <ion-button fill="clear" size="small" [id]="menuId" aria-label="More actions">
+          <span class="ellipsis">•••</span>
+        </ion-button> -->
+      </ion-buttons>
+    </div>
+
+    <a class="document-copy" [routerLink]="['/documents', doc().id]">
+      <h3>{{ doc().title }}</h3>
+      <p>{{ doc().description }}</p>
+    </a>
+
+    <div class="card-footer">
+      <ion-chip>{{ doc().category }}</ion-chip>
+      <span>{{ doc().fileSize }} · {{ doc().createdAt }}</span>
+    </div>
+
+    <ion-popover [trigger]="menuId" triggerAction="click" dismissOnSelect="true">
+      <ng-template>
+        <ion-list lines="none">
+          <ion-item button [routerLink]="['/documents', doc().id]">
+            <ion-icon slot="start" name="eye-outline" />
+            <ion-label>View</ion-label>
+          </ion-item>
+          <ion-item button [disabled]="downloading()" (click)="download()">
+            @if (downloading()) {
+              <ion-spinner slot="start" name="crescent" />
+            } @else {
+              <ion-icon slot="start" name="download-outline" />
+            }
+            <ion-label>{{ downloading() ? 'Preparing…' : 'Download' }}</ion-label>
+          </ion-item>
+          <ion-item button [disabled]="sharing()" (click)="share()">
+            @if (sharing()) {
+              <ion-spinner slot="start" name="crescent" />
+            } @else {
+              <ion-icon slot="start" name="share-social-outline" />
+            }
+            <ion-label>{{ sharing() ? 'Sharing…' : 'Share' }}</ion-label>
+          </ion-item>
+          @if (canDelete()) {
+            <ion-item
+              button
+              class="danger"
+              [disabled]="deletePending()"
+              (click)="deleteRequested.emit(doc().id)"
+            >
+              @if (deletePending()) {
+                <ion-spinner slot="start" name="crescent" />
+              } @else {
+                <ion-icon slot="start" name="trash-outline" />
+              }
+              <ion-label>{{ deletePending() ? 'Deleting…' : 'Delete' }}</ion-label>
+            </ion-item>
+          }
+        </ion-list>
+      </ng-template>
+    </ion-popover>
+  </article>
+} @else {
+  <a class="document-row" [routerLink]="['/documents', doc().id]">
+    <span class="file-icon" [attr.data-type]="doc().fileType">
+      <ion-icon [name]="iconName" />
+    </span>
+    <span class="row-title">
+      <strong>{{ doc().title }}</strong>
+      <small>{{ doc().category }} · {{ doc().fileSize }}</small>
+    </span>
+    <span class="row-meta category">{{ doc().category }}</span>
+    <span class="row-meta">{{ doc().fileSize }}</span>
+    <span class="row-meta">{{ doc().createdAt }}</span>
+    <ion-button
+      fill="clear"
+      size="small"
+      [disabled]="bookmarkPending()"
+      (click)="$event.preventDefault(); $event.stopPropagation(); bookmarkToggle.emit(doc().id)"
+      aria-label="Toggle bookmark"
+    >
+      @if (bookmarkPending()) {
+        <ion-spinner slot="icon-only" name="crescent" />
+      } @else {
+        <ion-icon
+          slot="icon-only"
+          [name]="doc().bookmarked ? 'bookmark' : 'bookmark-outline'"
+          [class.bookmarked]="doc().bookmarked"
+        />
+      }
+    </ion-button>
+  </a>
+}

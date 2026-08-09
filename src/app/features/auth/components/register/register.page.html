@@ -1,0 +1,41 @@
+<app-auth-layout title="Register" subtitle="Create your DocShelf account">
+  <form class="auth-form" (ngSubmit)="submit()">
+    <ion-input
+      label="Full name"
+      labelPlacement="stacked"
+      fill="outline"
+      [(ngModel)]="name"
+      name="name"
+      required
+    />
+    <ion-input
+      label="Email"
+      labelPlacement="stacked"
+      fill="outline"
+      type="email"
+      [(ngModel)]="email"
+      name="email"
+      required
+    />
+    <ion-input
+      label="Password"
+      labelPlacement="stacked"
+      fill="outline"
+      type="password"
+      [(ngModel)]="password"
+      name="password"
+      required
+    />
+    <ion-input
+      label="Confirm password"
+      labelPlacement="stacked"
+      fill="outline"
+      type="password"
+      [(ngModel)]="confirm"
+      name="confirm"
+      required
+    />
+    <ion-button type="submit" expand="block">Register</ion-button>
+    <p>Already have an account? <a routerLink="/login">Login</a></p>
+  </form>
+</app-auth-layout>

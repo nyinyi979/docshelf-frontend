@@ -1,36 +1,42 @@
 import { Routes } from '@angular/router';
+import { authGuard } from './features/auth/auth.guard';
 
 export const routes: Routes = [
   {
     path: 'login',
-    loadComponent: () => import('./pages/login/login.page').then((m) => m.LoginPage),
+    loadComponent: () =>
+      import('./features/auth/components/login/login.page').then((m) => m.LoginPage),
     data: { title: 'Login' },
   },
   {
     path: 'register',
-    loadComponent: () => import('./pages/register/register.page').then((m) => m.RegisterPage),
+    loadComponent: () =>
+      import('./features/auth/components/register/register.page').then((m) => m.RegisterPage),
     data: { title: 'Register' },
   },
   {
     path: '',
-    loadComponent: () =>
-      import('./layouts/app-shell/app-shell.component').then((m) => m.AppShellComponent),
+    canActivate: [authGuard],
+    loadComponent: () => import('./shell/app-shell.component').then((m) => m.AppShellComponent),
     children: [
       {
         path: '',
-        loadComponent: () => import('./pages/home/home.page').then((m) => m.HomePage),
+        loadComponent: () =>
+          import('./features/dashboard/components/home/home.page').then((m) => m.HomePage),
         data: { title: 'Home' },
       },
       {
         path: 'documents',
         loadComponent: () =>
-          import('./pages/documents/documents.page').then((m) => m.DocumentsPage),
+          import('./features/documents/components/documents/documents.page').then(
+            (m) => m.DocumentsPage,
+          ),
         data: { title: 'Documents' },
       },
       {
         path: 'documents/:id',
         loadComponent: () =>
-          import('./pages/document-details/document-details.page').then(
+          import('./features/documents/components/document-details/document-details.page').then(
             (m) => m.DocumentDetailsPage,
           ),
         data: { title: 'Document details' },
@@ -38,36 +44,41 @@ export const routes: Routes = [
       {
         path: 'categories',
         loadComponent: () =>
-          import('./pages/categories/categories.page').then((m) => m.CategoriesPage),
+          import('./features/taxonomy/components/categories/categories.page').then(
+            (m) => m.CategoriesPage,
+          ),
         data: { title: 'Categories' },
       },
       {
         path: 'bookmarks',
         loadComponent: () =>
-          import('./pages/bookmarks/bookmarks.page').then((m) => m.BookmarksPage),
+          import('./features/bookmarks/components/bookmarks.page').then((m) => m.BookmarksPage),
         data: { title: 'Bookmarks' },
       },
       {
         path: 'search',
-        loadComponent: () => import('./pages/search/search.page').then((m) => m.SearchPage),
+        loadComponent: () =>
+          import('./features/search/components/search.page').then((m) => m.SearchPage),
         data: { title: 'Search' },
       },
       {
         path: 'notifications',
         loadComponent: () =>
-          import('./pages/notifications/notifications.page').then((m) => m.NotificationsPage),
+          import('./features/activity/components/notifications/notifications.page').then(
+            (m) => m.NotificationsPage,
+          ),
         data: { title: 'Notifications' },
       },
       {
         path: 'profile',
-        loadComponent: () => import('./pages/profile/profile.page').then((m) => m.ProfilePage),
+        loadComponent: () =>
+          import('./features/auth/components/profile/profile.page').then((m) => m.ProfilePage),
         data: { title: 'Profile' },
       },
     ],
   },
   {
     path: '**',
-    loadComponent: () =>
-      import('./pages/not-found/not-found.page').then((m) => m.NotFoundPage),
+    loadComponent: () => import('./not-found/not-found.page').then((m) => m.NotFoundPage),
   },
 ];

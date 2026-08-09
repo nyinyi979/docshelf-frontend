@@ -1,0 +1,122 @@
+<ion-modal [isOpen]="open()" (didDismiss)="dismiss()" class="upload-modal">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Upload document</ion-title>
+        <ion-buttons slot="end">
+          <ion-button fill="clear" (click)="dismiss()" aria-label="Close">
+            <ion-icon slot="icon-only" name="close-outline" />
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-content class="ion-padding">
+      <p class="modal-description">
+        {{ allowedExtensions().join(', ').toUpperCase() }} up to {{ maxFileSizeMb() }} MB.
+      </p>
+
+      <div
+        class="drop-zone"
+        [class.drag-over]="dragOver()"
+        (dragover)="$event.preventDefault(); dragOver.set(true)"
+        (dragleave)="dragOver.set(false)"
+        (drop)="onDrop($event)"
+      >
+        <ion-icon name="cloud-upload-outline" />
+        <p>{{ file()?.name || 'Drop your file here, or' }}</p>
+        <label>
+          browse to upload
+          <input
+            type="file"
+            [accept]="acceptedExtensions()"
+            [disabled]="progress() !== null"
+            (change)="onFileInput($event)"
+          />
+        </label>
+      </div>
+
+      <div class="form-stack">
+        <ion-input
+          label="Title"
+          labelPlacement="stacked"
+          fill="outline"
+          [(ngModel)]="title"
+          placeholder="Document title"
+        />
+
+        <ion-textarea
+          label="Description"
+          labelPlacement="stacked"
+          fill="outline"
+          rows="3"
+          [(ngModel)]="description"
+          placeholder="What is this document about?"
+        />
+
+        <div class="two-column">
+          <ion-select
+            label="Category"
+            labelPlacement="stacked"
+            fill="outline"
+            [(ngModel)]="categoryId"
+            placeholder="Select"
+          >
+            @for (item of categories(); track item.id) {
+              <ion-select-option [value]="item.id">{{ item.name }}</ion-select-option>
+            }
+          </ion-select>
+
+          <ion-item lines="none" class="visibility-item">
+            <ion-toggle [(ngModel)]="isPublic">
+              <span>Visibility</span>
+              <small>{{ isPublic ? 'Public' : 'Private' }}</small>
+            </ion-toggle>
+          </ion-item>
+        </div>
+
+        <div>
+          <label class="field-label">Tags</label>
+          <div class="tag-picker">
+            @for (tag of allTags(); track tag.id) {
+              <button
+                type="button"
+                [class.active]="tags().includes(tag.id)"
+                (click)="toggleTag(tag.id)"
+              >
+                {{ tag.name }}
+              </button>
+            }
+          </div>
+          @if (tags().length) {
+            <div class="selected-tags">
+              @for (tagId of tags(); track tagId) {
+                <ion-chip (click)="toggleTag(tagId)">
+                  {{ tagName(tagId) }}
+                  <ion-icon name="close-outline" />
+                </ion-chip>
+              }
+            </div>
+          }
+        </div>
+
+        @if (progress() !== null) {
+          <div class="progress-wrap">
+            <ion-progress-bar [value]="(progress() ?? 0) / 100" />
+            <small>Uploading… {{ progress() }}%</small>
+          </div>
+        }
+
+        <div class="modal-actions">
+          <ion-button fill="outline" color="medium" (click)="dismiss()">Cancel</ion-button>
+          <ion-button
+            (click)="upload()"
+            [disabled]="!file() || !title.trim() || !categoryId || progress() !== null"
+          >
+            Upload
+          </ion-button>
+        </div>
+      </div>
+    </ion-content>
+  </ng-template>
+</ion-modal>

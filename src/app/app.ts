@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { IonApp } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
@@ -8,7 +8,6 @@ import {
   bookmark,
   bookmarkOutline,
   bookOutline,
-  cameraOutline,
   checkmarkCircleOutline,
   chevronBackOutline,
   chevronForwardOutline,
@@ -26,17 +25,14 @@ import {
   listOutline,
   logOutOutline,
   menuOutline,
-  moonOutline,
   notificationsOutline,
   personOutline,
   pulseOutline,
   searchOutline,
   shareSocialOutline,
   statsChartOutline,
-  sunnyOutline,
   trashOutline,
 } from 'ionicons/icons';
-import { ThemeService } from './services/theme.service';
 
 @Component({
   selector: 'app-root',
@@ -45,8 +41,6 @@ import { ThemeService } from './services/theme.service';
   template: '<ion-app><router-outlet /></ion-app>',
 })
 export class App {
-  readonly theme = inject(ThemeService);
-
   constructor() {
     addIcons({
       arrowBackOutline,
@@ -54,7 +48,6 @@ export class App {
       bookmark,
       bookmarkOutline,
       bookOutline,
-      cameraOutline,
       checkmarkCircleOutline,
       chevronBackOutline,
       chevronForwardOutline,
@@ -72,14 +65,12 @@ export class App {
       listOutline,
       logOutOutline,
       menuOutline,
-      moonOutline,
       notificationsOutline,
       personOutline,
       pulseOutline,
       searchOutline,
       shareSocialOutline,
       statsChartOutline,
-      sunnyOutline,
       trashOutline,
     });
   }

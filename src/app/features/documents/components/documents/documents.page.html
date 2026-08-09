@@ -1,0 +1,159 @@
+<ion-content class="app-page">
+  <div class="page-container page-stack documents-page">
+    <div class="toolbar-grid">
+      <ion-searchbar
+        mode="md"
+        placeholder="Search documents..."
+        [value]="query()"
+        [disabled]="documentsQuery.isFetching()"
+        (ionInput)="setQuery($any($event).detail.value)"
+      />
+
+      <ion-select
+        interface="popover"
+        fill="outline"
+        aria-label="Category"
+        [value]="category()"
+        [disabled]="documentsQuery.isFetching() || categoriesQuery.isFetching()"
+        (ionChange)="setCategory($event.detail.value)"
+      >
+        <ion-select-option value="all">All categories</ion-select-option>
+        @for (item of categories(); track item.id) {
+          <ion-select-option [value]="item.name">{{ item.name }}</ion-select-option>
+        }
+      </ion-select>
+
+      <ion-select
+        interface="popover"
+        fill="outline"
+        aria-label="Tag"
+        [value]="tag()"
+        [disabled]="documentsQuery.isFetching() || tagsQuery.isFetching()"
+        (ionChange)="setTag($event.detail.value)"
+      >
+        <ion-select-option value="all">All tags</ion-select-option>
+        @for (item of allTags(); track item.id) {
+          <ion-select-option [value]="item.name">{{ item.name }}</ion-select-option>
+        }
+      </ion-select>
+
+      <ion-select
+        interface="popover"
+        fill="outline"
+        aria-label="Sort"
+        [value]="sort()"
+        [disabled]="documentsQuery.isFetching()"
+        (ionChange)="setSort($event.detail.value)"
+      >
+        <ion-select-option value="newest">Newest</ion-select-option>
+        <ion-select-option value="oldest">Oldest</ion-select-option>
+        <ion-select-option value="name">Name</ion-select-option>
+      </ion-select>
+
+      <div class="view-switcher">
+        <button
+          type="button"
+          [class.active]="view() === 'grid'"
+          (click)="view.set('grid')"
+          aria-label="Grid view"
+        >
+          <ion-icon name="grid-outline" />
+        </button>
+        <button
+          type="button"
+          [class.active]="view() === 'list'"
+          (click)="view.set('list')"
+          aria-label="List view"
+        >
+          <ion-icon name="list-outline" />
+        </button>
+      </div>
+
+      @if (canUpload()) {
+        <ion-button size="small" (click)="uploadOpen.set(true)">
+          <ion-icon slot="start" name="cloud-upload-outline" />
+          Upload
+        </ion-button>
+      }
+    </div>
+
+    @if (documentsQuery.isPending()) {
+      <div class="empty-state" role="status" aria-live="polite">
+        <ion-spinner name="crescent" /> Loading documents…
+      </div>
+    } @else if (documentsQuery.isError()) {
+      <div class="empty-state">Unable to load documents.</div>
+    } @else if (paged().length) {
+      @if (view() === 'grid') {
+        <div class="document-grid">
+          @for (doc of paged(); track doc.id) {
+            <app-document-card
+              [doc]="doc"
+              [canDelete]="canDelete(doc)"
+              [bookmarkPending]="
+                bookmarkMutation.isPending() && bookmarkMutation.variables().id === doc.id
+              "
+              [deletePending]="deleteMutation.isPending() && deleteMutation.variables() === doc.id"
+              (bookmarkToggle)="toggleBookmark($event)"
+              (deleteRequested)="deleteDocument($event)"
+            />
+          }
+        </div>
+      } @else {
+        <div class="list-wrap">
+          <div class="list-heading">
+            <span></span><span>Name</span><span>Category</span><span>Size</span><span>Date</span
+            ><span></span>
+          </div>
+          @for (doc of paged(); track doc.id) {
+            <app-document-card
+              [doc]="doc"
+              [canDelete]="canDelete(doc)"
+              [bookmarkPending]="
+                bookmarkMutation.isPending() && bookmarkMutation.variables().id === doc.id
+              "
+              [deletePending]="deleteMutation.isPending() && deleteMutation.variables() === doc.id"
+              mode="row"
+              (bookmarkToggle)="toggleBookmark($event)"
+            />
+          }
+        </div>
+      }
+    } @else {
+      <div class="empty-state">No documents match your filters.</div>
+    }
+
+    @if (totalPages() > 1) {
+      <nav class="pagination" aria-label="Document pages">
+        <button
+          type="button"
+          (click)="changePage(page() - 1)"
+          [disabled]="documentsQuery.isFetching() || page() === 1"
+        >
+          <ion-icon name="chevron-back-outline" />
+          Previous
+        </button>
+        @for (number of [].constructor(totalPages()); track $index) {
+          <button
+            type="button"
+            class="number"
+            [class.active]="$index + 1 === page()"
+            (click)="changePage($index + 1)"
+          >
+            {{ $index + 1 }}
+          </button>
+        }
+        <button
+          type="button"
+          (click)="changePage(page() + 1)"
+          [disabled]="documentsQuery.isFetching() || page() === totalPages()"
+        >
+          Next
+          <ion-icon name="chevron-forward-outline" />
+        </button>
+      </nav>
+    }
+  </div>
+
+  <app-upload-modal [open]="uploadOpen()" (closed)="uploadOpen.set(false)" />
+</ion-content>

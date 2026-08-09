@@ -1,0 +1,43 @@
+.category-grid {
+  @apply grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4;
+}
+
+.category-card {
+  @apply rounded-lg border border-app-border border-solid bg-app-card p-4;
+}
+
+.category-heading {
+  @apply flex items-center gap-2.5;
+
+  > span {
+    @apply grid h-9 w-9 shrink-0 place-items-center rounded-md bg-app-accent text-primary;
+  }
+
+  h2 {
+    @apply m-0 text-sm font-semibold;
+  }
+
+  p {
+    @apply mb-0 mt-0.5 text-xs text-app-muted;
+  }
+}
+
+ul {
+  @apply mb-0 mt-3 grid list-none gap-1.5 p-0;
+
+  li {
+    @apply truncate text-xs text-app-muted;
+  }
+
+  a {
+    @apply text-inherit no-underline transition hover:text-primary;
+
+    &::before {
+      content: '· ';
+    }
+  }
+
+  .remaining-count {
+    @apply pt-0.5 font-medium text-primary;
+  }
+}

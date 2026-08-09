@@ -1,0 +1,60 @@
+<ion-content class="app-page">
+  <div class="page-container page-stack bookmarks-page">
+    @if (bookmarksQuery.isPending()) {
+      <div class="bookmarks-loading" role="status" aria-live="polite">
+        <ion-spinner name="crescent" />
+        <p>Loading bookmarks…</p>
+      </div>
+    } @else if (bookmarksQuery.isError()) {
+      <div class="empty-bookmarks request-state-error" role="alert">
+        <ion-icon name="alert-circle-outline" />
+        <h2>Unable to load bookmarks</h2>
+        <p>Please try again.</p>
+      </div>
+    } @else if (bookmarkedDocuments().length === 0) {
+      <div class="empty-bookmarks">
+        <ion-icon name="bookmark-outline" />
+        <h2>No bookmarks yet</h2>
+        <p>Bookmark documents to quickly find them later.</p>
+        <ion-button routerLink="/documents">Browse documents</ion-button>
+      </div>
+    } @else {
+      <div class="document-grid compact-grid">
+        @for (doc of paged(); track doc.id) {
+          <app-document-card
+            [doc]="doc"
+            [bookmarkPending]="
+              bookmarkMutation.isPending() && bookmarkMutation.variables() === doc.id
+            "
+            (bookmarkToggle)="toggleBookmark($event)"
+          />
+        }
+      </div>
+
+      @if (totalPages() > 1) {
+        <nav class="pagination">
+          <button type="button" (click)="changePage(page() - 1)" [disabled]="page() === 1">
+            <ion-icon name="chevron-back-outline" /> Previous
+          </button>
+          @for (number of [].constructor(totalPages()); track $index) {
+            <button
+              type="button"
+              class="number"
+              [class.active]="$index + 1 === page()"
+              (click)="changePage($index + 1)"
+            >
+              {{ $index + 1 }}
+            </button>
+          }
+          <button
+            type="button"
+            (click)="changePage(page() + 1)"
+            [disabled]="page() === totalPages()"
+          >
+            Next <ion-icon name="chevron-forward-outline" />
+          </button>
+        </nav>
+      }
+    }
+  </div>
+</ion-content>

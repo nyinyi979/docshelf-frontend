@@ -1,0 +1,87 @@
+<ion-content class="app-page">
+  <div class="page-container page-stack home-page">
+    <section class="welcome">
+      <h2>Welcome back, {{ currentUser()?.username?.split(' ')?.[0] || 'there' }}</h2>
+      <p>Here's what's happening across your workspace today.</p>
+    </section>
+
+    @if (isPending()) {
+      <div class="request-state" role="status" aria-live="polite">
+        <ion-spinner name="crescent" />
+        <p>Loading dashboard…</p>
+      </div>
+    } @else if (isError()) {
+      <div class="request-state request-state-error" role="alert">
+        <ion-icon name="alert-circle-outline" />
+        <h2>Unable to load dashboard</h2>
+        <p>Please try again.</p>
+      </div>
+    } @else {
+      <section class="stats-grid">
+        @for (stat of stats(); track stat.label) {
+          <article class="stat-card">
+            <div>
+              <span>{{ stat.label }}</span>
+              <ion-icon [name]="stat.icon" />
+            </div>
+            <strong>{{ stat.value }}</strong>
+          </article>
+        }
+      </section>
+
+      <section>
+        <div class="section-heading">
+          <h3>Recent Documents</h3>
+          <a routerLink="/documents">View all</a>
+        </div>
+        <div class="document-grid">
+          @for (doc of recentDocuments(); track doc.id) {
+            <app-document-card
+              [doc]="doc"
+              [bookmarkPending]="
+                bookmarkMutation.isPending() && bookmarkMutation.variables().id === doc.id
+              "
+              (bookmarkToggle)="toggleBookmark($event)"
+              (deleteRequested)="deleteMutation.mutate($event)"
+            />
+          } @empty {
+            <p class="text-app-muted">No documents yet.</p>
+          }
+        </div>
+      </section>
+
+      <section>
+        <h3 class="section-title">Followed Categories</h3>
+        <div class="category-strip">
+          @for (category of categories(); track category.id) {
+            <ion-chip>
+              <strong>{{ category.name }}</strong>
+              <span>{{ category.documentCount }} docs</span>
+            </ion-chip>
+          } @empty {
+            <p class="text-app-muted">No categories yet.</p>
+          }
+        </div>
+      </section>
+
+      <section>
+        <h3 class="section-title">Recent Activity</h3>
+        <div class="activity-card">
+          @for (item of activityFeed(); track item.id; let first = $first) {
+            <div class="activity-row" [class.with-border]="!first">
+              <span class="activity-avatar">{{ initials(item.who) }}</span>
+              <div class="activity-copy">
+                <strong>{{ item.who }}</strong>
+                <span>{{ item.action }}</span>
+                <strong>{{ item.target }}</strong>
+              </div>
+              <time>{{ item.time }}</time>
+            </div>
+          } @empty {
+            <p class="p-4 text-app-muted">No recent activity.</p>
+          }
+        </div>
+      </section>
+    }
+  </div>
+</ion-content>

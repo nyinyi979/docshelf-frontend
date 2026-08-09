@@ -1,0 +1,45 @@
+<ion-content class="app-page">
+  <div class="page-container">
+    @if (categoriesQuery.isPending() || documentsQuery.isPending()) {
+      <div class="request-state" role="status" aria-live="polite">
+        <ion-spinner name="crescent" />
+        <p>Loading categories…</p>
+      </div>
+    } @else if (categoriesQuery.isError() || documentsQuery.isError()) {
+      <div class="request-state request-state-error" role="alert">
+        <ion-icon name="alert-circle-outline" />
+        <h2>Unable to load categories</h2>
+        <p>Please try again.</p>
+      </div>
+    } @else if (categories().length === 0) {
+      <div class="request-state">
+        <ion-icon name="folder-open-outline" />
+        <h2>No categories yet</h2>
+      </div>
+    } @else {
+      <div class="category-grid">
+        @for (category of categories(); track category.id) {
+          <article class="category-card">
+            <div class="category-heading">
+              <span><ion-icon name="folder-open-outline" /></span>
+              <div>
+                <h2>{{ category.name }}</h2>
+                <p>{{ category.documentCount }} documents</p>
+              </div>
+            </div>
+            <ul>
+              @for (doc of categoryDocuments(category.name); track doc.id) {
+                <li>
+                  <a [routerLink]="['/documents', doc.id]">{{ doc.title }}</a>
+                </li>
+              }
+              @if (category.documentCount > 4) {
+                <li class="remaining-count">+{{ category.documentCount - 4 }} more</li>
+              }
+            </ul>
+          </article>
+        }
+      </div>
+    }
+  </div>
+</ion-content>

@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "typecheck": "tsc -p tsconfig.app.json --noEmit",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "ionic:serve": "ng serve",
@@ -39,6 +40,7 @@
     "@capacitor/core": "^8.4.1",
     "@capacitor/ios": "^8.4.1",
     "@ionic/angular": "^8.8.13",
+    "@tanstack/angular-query-experimental": "^5.101.4",
     "ionicons": "^8.0.13",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"

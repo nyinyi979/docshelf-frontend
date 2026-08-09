@@ -1,0 +1,278 @@
+<ion-content class="app-page">
+  @if (detailQuery.isPending()) {
+    <div class="request-state" role="status" aria-live="polite">
+      <ion-spinner name="crescent" />
+      <p>Loading document…</p>
+    </div>
+  } @else if (notFound()) {
+    <div class="document-not-found">
+      <div>
+        <h2>Document not found</h2>
+        <p>The document may have been removed or the link is incorrect.</p>
+        <ion-button routerLink="/documents">Back to documents</ion-button>
+      </div>
+    </div>
+  } @else if (detailQuery.isError()) {
+    <div class="request-state request-state-error" role="alert">
+      <ion-icon name="alert-circle-outline" />
+      <h2>Unable to load document</h2>
+      <p>Please try again.</p>
+    </div>
+  } @else if (doc(); as document) {
+    <div class="page-container page-stack details-page">
+      <ion-button class="details-back" fill="clear" routerLink="/documents">
+        <ion-icon slot="start" name="arrow-back-outline" /> Back to documents
+      </ion-button>
+
+      <div class="details-grid">
+        <main class="details-main">
+          <section class="document-heading">
+            <div class="badge-row">
+              <ion-chip>{{ document.category }}</ion-chip>
+              @for (tag of document.tags; track tag) {
+                <ion-chip outline="true">#{{ tag }}</ion-chip>
+              }
+              <span class="version-badge">v{{ document.versionNumber }}</span>
+            </div>
+            <h2>{{ document.title }}</h2>
+            <p>
+              Uploaded by {{ document.uploadedBy }} · {{ document.createdAt }} ·
+              {{ document.fileSize }}
+            </p>
+          </section>
+
+          <section class="preview-card">
+            <header>
+              <span>Preview</span>
+            </header>
+            <div class="preview-body">
+              <div>
+                <strong>{{ document.fileType.toUpperCase() }}</strong>
+                <span>Secure access URL refreshes automatically before expiry.</span>
+                <ion-button size="small" fill="outline" (click)="download()"
+                  >Open secure preview</ion-button
+                >
+              </div>
+            </div>
+          </section>
+
+          <section>
+            <h3 class="section-title">Version history</h3>
+            <div class="history-table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Version</th>
+                    <th>Uploaded by</th>
+                    <th>Date</th>
+                    <th>Size</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (version of versionHistory(); track version.id) {
+                    <tr>
+                      <td>
+                        <strong>v{{ version.versionNumber }}</strong>
+                      </td>
+                      <td>{{ version.uploadedBy }}</td>
+                      <td>{{ version.createdAt }}</td>
+                      <td>{{ version.fileSize }}</td>
+                      <td>
+                        <div class="table-actions">
+                          <ion-button
+                            fill="outline"
+                            size="small"
+                            color="medium"
+                            [disabled]="downloadTarget() !== null"
+                            (click)="download(version.id)"
+                          >
+                            @if (isDownloading(version.id)) {
+                              <ion-spinner slot="start" name="crescent" /> Preparing…
+                            } @else {
+                              Open
+                            }
+                          </ion-button>
+                        </div>
+                      </td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </main>
+
+        <aside class="details-sidebar">
+          <section class="action-card">
+            <ion-button expand="block" [disabled]="downloadTarget() !== null" (click)="download()">
+              @if (isDownloading()) {
+                <ion-spinner slot="start" name="crescent" /> Preparing…
+              } @else {
+                <ion-icon slot="start" name="download-outline" /> Download
+              }
+            </ion-button>
+            <ion-button
+              expand="block"
+              fill="outline"
+              color="medium"
+              [disabled]="sharing()"
+              (click)="share()"
+            >
+              @if (sharing()) {
+                <ion-spinner slot="start" name="crescent" /> Sharing…
+              } @else {
+                <ion-icon slot="start" name="share-social-outline" /> Share
+              }
+            </ion-button>
+            <ion-button
+              expand="block"
+              fill="outline"
+              color="medium"
+              [disabled]="bookmarkMutation.isPending()"
+              (click)="toggleBookmark()"
+            >
+              @if (bookmarkMutation.isPending()) {
+                <ion-spinner slot="start" name="crescent" /> Updating…
+              } @else {
+                <ion-icon slot="start" [name]="bookmarked() ? 'bookmark' : 'bookmark-outline'" />
+                {{ bookmarked() ? 'Bookmarked' : 'Bookmark' }}
+              }
+            </ion-button>
+            @if (document.canManage && canUpload()) {
+              <ion-button
+                expand="block"
+                fill="outline"
+                color="medium"
+                (click)="versionModalOpen.set(true)"
+              >
+                <ion-icon slot="start" name="cloud-upload-outline" /> Upload new version
+              </ion-button>
+            }
+          </section>
+
+          <section class="info-card">
+            <h3>Details</h3>
+            <dl>
+              <div>
+                <dt>Category</dt>
+                <dd>{{ document.category }}</dd>
+              </div>
+              <div>
+                <dt>Tags</dt>
+                <dd>{{ document.tags.join(', ') }}</dd>
+              </div>
+              <div class="visibility-row">
+                <dt>Visibility</dt>
+                <dd>
+                  <ion-toggle
+                    [checked]="isPublic()"
+                    [disabled]="!document.canManage || visibilityMutation.isPending()"
+                    (ionChange)="changeVisibility($event.detail.checked)"
+                  />
+                  @if (visibilityMutation.isPending()) {
+                    <ion-spinner name="crescent" />
+                  }
+                  <span>{{ isPublic() ? 'Public' : 'Private' }}</span>
+                </dd>
+              </div>
+            </dl>
+            <p>{{ document.description }}</p>
+          </section>
+
+          @if (related().length) {
+            <section class="related-card">
+              <h3>Related</h3>
+              <div>
+                @for (item of related(); track item.id) {
+                  <a [routerLink]="['/documents', item.id]">
+                    <strong>{{ item.title }}</strong>
+                    <small>{{ item.fileSize }} · {{ item.createdAt }}</small>
+                  </a>
+                }
+              </div>
+            </section>
+          }
+        </aside>
+      </div>
+
+      <section>
+        <h3 class="section-title">Activity</h3>
+        <div class="activity-list">
+          @if (activityQuery.isPending()) {
+            <div role="status" aria-live="polite">
+              <span><ion-spinner name="crescent" /> Loading activity…</span>
+            </div>
+          } @else if (activityQuery.isError()) {
+            <div class="request-state-error"><span>Unable to load activity.</span></div>
+          } @else {
+            @for (item of documentActivity(); track item.id; let first = $first) {
+              <div [class.with-border]="!first">
+                <span>{{ item.text }}</span
+                ><time>{{ item.time }}</time>
+              </div>
+            } @empty {
+              <div><span>No activity recorded for this document.</span></div>
+            }
+          }
+        </div>
+      </section>
+    </div>
+  } @else {
+    <div class="request-state request-state-error" role="alert">
+      <ion-icon name="alert-circle-outline" />
+      <h2>Invalid document response</h2>
+      <p>Please try again.</p>
+    </div>
+  }
+
+  <ion-modal
+    [isOpen]="versionModalOpen()"
+    (didDismiss)="versionModalOpen.set(false)"
+    class="version-modal"
+  >
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Upload new version</ion-title>
+          <ion-buttons slot="end">
+            <ion-button fill="clear" (click)="versionModalOpen.set(false)">
+              <ion-icon slot="icon-only" name="close-outline" />
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <label class="version-drop-zone">
+          <ion-icon name="cloud-upload-outline" />
+          <span>{{ newVersionFile?.name || 'Choose the new document version' }}</span>
+          <small>Browse</small>
+          <input type="file" (change)="onVersionFile($event)" />
+        </label>
+        <ion-textarea
+          class="version-notes"
+          label="Version notes"
+          labelPlacement="stacked"
+          fill="outline"
+          rows="4"
+          [(ngModel)]="versionNotes"
+        />
+        <div class="modal-actions">
+          <ion-button fill="outline" color="medium" (click)="versionModalOpen.set(false)"
+            >Cancel</ion-button
+          >
+          <ion-button
+            (click)="uploadVersion()"
+            [disabled]="!newVersionFile || versionMutation.isPending()"
+          >
+            @if (versionMutation.isPending()) {
+              <ion-spinner slot="start" name="crescent" /> Uploading…
+            } @else {
+              Upload
+            }
+          </ion-button>
+        </div>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+</ion-content>

@@ -1,7 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ['./src/**/*.{html,ts,scss}'],
-  darkMode: 'class',
   corePlugins: {
     // Ionic already ships its own reset and component normalization.
     preflight: false,
@@ -9,7 +8,15 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Inter', 'ui-sans-serif', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
+        sans: [
+          'Inter',
+          'ui-sans-serif',
+          'system-ui',
+          '-apple-system',
+          'Segoe UI',
+          'Roboto',
+          'sans-serif',
+        ],
       },
       colors: {
         background: 'var(--background)',
@@ -60,8 +67,8 @@ module.exports = {
         '2xl': 'calc(var(--radius) + 8px)',
       },
       boxShadow: {
-        card: '0 10px 28px rgb(15 23 42 / 0.08)',
-        auth: '0 18px 50px rgb(15 23 42 / 0.08)',
+        card: '0 12px 32px rgb(46 64 112 / 0.10)',
+        auth: '0 24px 64px rgb(46 64 112 / 0.14)',
       },
     },
   },
