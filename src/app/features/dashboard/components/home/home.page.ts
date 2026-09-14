@@ -1,6 +1,6 @@
 import { Component, computed, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { IonChip, IonContent, IonIcon, IonSpinner } from '@ionic/angular/standalone';
+import { IonButton, IonChip, IonContent, IonIcon, IonSpinner } from '@ionic/angular/standalone';
 import {
   injectMutation,
   injectQuery,
@@ -17,7 +17,15 @@ import { NotificationsService } from '../../../../shared/notifications.service';
 @Component({
   selector: 'app-home-page',
   standalone: true,
-  imports: [RouterLink, IonChip, IonContent, IonIcon, IonSpinner, DocumentCardComponent],
+  imports: [
+    RouterLink,
+    IonButton,
+    IonChip,
+    IonContent,
+    IonIcon,
+    IonSpinner,
+    DocumentCardComponent,
+  ],
   templateUrl: './home.page.html',
   styleUrl: './home.page.scss',
 })
@@ -78,7 +86,9 @@ export class HomePage {
         who: item.userName ?? 'You',
         action: item.description,
         target: item.targetTitle ?? item.detail,
-        time: new Date(item.timestamp).toLocaleString(),
+        timestamp: item.timestamp,
+        time: this.formatActivityTime(item.timestamp),
+        fullTime: new Date(item.timestamp).toLocaleString(),
       })),
   );
   readonly stats = computed(() => [
@@ -111,13 +121,33 @@ export class HomePage {
     }
   }
 
+  retryDashboard(): void {
+    void this.documentsQuery.refetch();
+    void this.bookmarksQuery.refetch();
+    void this.categoriesQuery.refetch();
+    void this.activityQuery.refetch();
+  }
+
   initials(name: string): string {
     const source = name === 'You' ? (this.currentUser()?.username ?? '') : name;
-    return source
+    const value = source
       .split(/\s+/)
       .map((part) => part[0])
       .join('')
       .slice(0, 2)
       .toUpperCase();
+    return value || 'ME';
+  }
+
+  private formatActivityTime(timestamp: string): string {
+    const date = new Date(timestamp);
+    if (Number.isNaN(date.getTime())) return timestamp;
+
+    return date.toLocaleString(undefined, {
+      month: 'short',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: '2-digit',
+    });
   }
 }

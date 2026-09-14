@@ -20,7 +20,7 @@
   --card-foreground: #172033;
   --popover: #ffffff;
   --popover-foreground: #172033;
-  --primary: #4f6fdc;
+  --primary: #4b68d2;
   --primary-foreground: #ffffff;
   --secondary: #edf1f8;
   --secondary-foreground: #34415a;
@@ -35,12 +35,16 @@
   --ring: #6d88e5;
   --sidebar: #fbfcff;
   --sidebar-foreground: #27344d;
-  --sidebar-primary: #4f6fdc;
+  --sidebar-primary: #4b68d2;
   --sidebar-primary-foreground: #ffffff;
   --sidebar-accent: #e8eeff;
   --sidebar-accent-foreground: #2d426f;
   --sidebar-border: #e3e9f3;
   --sidebar-ring: #6d88e5;
+  --shadow-sm: 0 1px 2px rgb(31 45 78 / 0.06);
+  --motion-fast: 140ms;
+  --motion-base: 200ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 
   /* Ionic tokens mapped onto the same React design system. */
   --ion-font-family:
@@ -52,11 +56,11 @@
   --ion-toolbar-background: var(--background);
   --ion-border-color: var(--border);
   --ion-color-primary: var(--primary);
-  --ion-color-primary-rgb: 79, 111, 220;
+  --ion-color-primary-rgb: 75, 104, 210;
   --ion-color-primary-contrast: var(--primary-foreground);
   --ion-color-primary-contrast-rgb: 255, 255, 255;
-  --ion-color-primary-shade: #465fc2;
-  --ion-color-primary-tint: #617fde;
+  --ion-color-primary-shade: #425cb9;
+  --ion-color-primary-tint: #5d77d7;
   --ion-color-danger: var(--destructive);
   --ion-color-medium: #647089;
   --ion-color-medium-rgb: 100, 112, 137;
@@ -101,6 +105,11 @@ body {
   @apply m-0 bg-background font-sans text-foreground antialiased;
 }
 
+::selection {
+  color: var(--primary-foreground);
+  background: var(--primary);
+}
+
 button,
 input,
 textarea,
@@ -111,6 +120,16 @@ select {
 button,
 a {
   -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+:where(a, button, input, textarea, select, [tabindex]):focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--ring) 42%, transparent);
+  outline-offset: 2px;
+}
+
+a {
+  text-underline-offset: 0.2em;
 }
 
 @layer components {
@@ -121,6 +140,7 @@ a {
   .page-container {
     @apply mx-auto w-full px-4 py-5 sm:px-6 sm:py-7 lg:px-8 lg:py-8;
     max-width: 1280px;
+    padding-bottom: calc(1.25rem + env(safe-area-inset-bottom));
   }
 
   .page-stack {
@@ -128,7 +148,7 @@ a {
   }
 
   .request-state {
-    @apply mx-auto flex min-h-64 w-full max-w-xl flex-col items-center justify-center gap-3 rounded-xl border border-dashed border-border px-6 py-12 text-center text-muted-foreground;
+    @apply mx-auto flex min-h-64 w-full max-w-xl flex-col items-center justify-center gap-3 rounded-xl border border-dashed border-border bg-card px-6 py-12 text-center text-muted-foreground;
 
     ion-spinner {
       @apply h-8 w-8;
@@ -139,11 +159,13 @@ a {
     }
 
     h2,
+    h3,
     p {
       @apply m-0;
     }
 
-    h2 {
+    h2,
+    h3 {
       @apply text-base font-semibold text-foreground;
     }
 
@@ -187,6 +209,13 @@ ion-toast.docshelf-toast {
 @media (min-width: 1024px) {
   .page-container {
     padding-inline: clamp(2rem, 4vw, 3rem);
+    padding-bottom: calc(2rem + env(safe-area-inset-bottom));
+  }
+}
+
+@media (min-width: 640px) and (max-width: 1023px) {
+  .page-container {
+    padding-bottom: calc(1.75rem + env(safe-area-inset-bottom));
   }
 }
 
@@ -194,6 +223,7 @@ ion-button {
   text-transform: none;
   --border-radius: 8px;
   --box-shadow: none;
+  min-height: 44px;
 }
 
 ion-input,
@@ -236,4 +266,15 @@ ion-alert,
 ion-popover {
   --ion-background-color: var(--card);
   --ion-text-color: var(--card-foreground);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
 }

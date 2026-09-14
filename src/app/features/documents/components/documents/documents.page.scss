@@ -39,10 +39,6 @@
   grid-template-columns: 42px minmax(0, 2fr) 1fr 0.7fr 0.9fr 36px;
 }
 
-.empty-state {
-  @apply rounded-xl border border-dashed border-app-border border-solid px-4 py-12 text-center text-[0.84rem] text-app-muted;
-}
-
 @media (max-width: 1080px) {
   .toolbar-grid {
     grid-template-columns: minmax(200px, 1fr) repeat(3, 125px);

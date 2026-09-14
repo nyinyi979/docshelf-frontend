@@ -1,4 +1,7 @@
 .welcome {
+  @apply flex flex-col gap-4 border-b border-app-border pb-5;
+  @apply sm:flex-row sm:items-end sm:justify-between;
+
   h2 {
     @apply m-0 tracking-[-0.035em];
     font-size: clamp(1.45rem, 3vw, 1.8rem);
@@ -9,52 +12,79 @@
   }
 }
 
+.welcome-action,
+.section-heading > a,
+.section-empty > a {
+  @apply inline-flex min-h-11 shrink-0 items-center gap-1.5 rounded-md font-semibold;
+  @apply text-primary no-underline transition-colors hover:text-app-text;
+  transition-duration: var(--motion-fast);
+  transition-timing-function: var(--ease-out);
+
+  ion-icon {
+    @apply text-base;
+  }
+}
+
+.welcome-action {
+  @apply self-start text-sm sm:self-auto;
+}
+
 .stats-grid {
   @apply grid grid-cols-2 gap-3 lg:grid-cols-4;
 }
 
 .stat-card {
-  @apply rounded-[11px] border border-app-border border-solid bg-app-card p-4;
+  @apply rounded-xl border border-app-border border-solid bg-app-card p-4;
 
-  div {
-    @apply flex items-center justify-between gap-2 text-[0.72rem] text-app-muted;
+  .stat-heading {
+    @apply flex items-center gap-2.5 text-xs font-medium text-app-muted;
   }
 
-  strong {
-    @apply mt-2 block text-2xl tracking-[-0.03em];
+  > strong {
+    @apply mt-3 block text-2xl tracking-[-0.03em];
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+.stat-icon {
+  @apply grid h-8 w-8 place-items-center rounded-lg bg-app-accent text-primary;
+
+  ion-icon {
+    @apply text-base;
   }
 }
 
 .section-heading {
-  @apply mb-3 flex items-center justify-between;
+  @apply mb-3 flex items-end justify-between gap-4;
 
   h3 {
-    @apply m-0 text-[0.86rem];
+    @apply m-0 text-base font-semibold tracking-[-0.015em];
   }
 
-  a {
-    @apply text-[0.75rem] text-primary no-underline hover:underline;
+  p {
+    @apply mb-0 mt-1 text-xs leading-relaxed text-app-muted;
   }
-}
 
-.section-title {
-  @apply mb-3 mt-0 text-[0.86rem];
+  > a {
+    @apply text-xs;
+  }
 }
 
 .category-strip {
-  @apply flex gap-2 overflow-x-auto pb-1.5;
+  @apply flex flex-wrap gap-2;
 
   ion-chip {
-    @apply m-0 h-9 shrink-0 bg-app-card text-[0.76rem] text-app-text;
+    @apply m-0 h-10 shrink-0 border border-app-border border-solid bg-app-card;
+    @apply px-1 text-xs text-app-text;
   }
 
   span {
-    @apply ml-1 text-[0.68rem] text-app-muted;
+    @apply ml-1 text-xs text-app-muted;
   }
 }
 
 .activity-card {
-  @apply overflow-hidden rounded-[11px] border border-app-border border-solid bg-app-card;
+  @apply overflow-hidden rounded-xl border border-app-border border-solid bg-app-card;
 }
 
 .activity-row {
@@ -65,19 +95,55 @@
   }
 
   time {
-    @apply shrink-0 text-[0.7rem] text-app-muted;
+    @apply shrink-0 text-xs text-app-muted;
+    font-variant-numeric: tabular-nums;
   }
 }
 
 .activity-avatar {
-  @apply grid h-[34px] w-[34px] shrink-0 place-items-center rounded-full bg-app-accent text-[0.68rem] font-bold;
+  @apply grid h-9 w-9 shrink-0 place-items-center rounded-full bg-app-accent;
+  @apply text-xs font-bold text-primary;
 }
 
 .activity-copy {
-  @apply min-w-0 flex-1 text-[0.8rem];
+  @apply min-w-0 flex-1 text-sm leading-relaxed;
 
   span {
     @apply mx-1 text-app-muted;
+  }
+}
+
+.section-empty {
+  @apply col-span-full flex min-h-28 items-center gap-3 rounded-xl border border-dashed;
+  @apply border-app-border bg-app-card p-4 text-sm text-app-muted;
+
+  > ion-icon {
+    @apply shrink-0 text-2xl text-primary;
+  }
+
+  div {
+    @apply min-w-0 flex-1;
+  }
+
+  strong,
+  span {
+    @apply block;
+  }
+
+  strong {
+    @apply font-semibold text-app-text;
+  }
+
+  span {
+    @apply mt-0.5 text-xs leading-relaxed;
+  }
+
+  > a {
+    @apply text-xs;
+  }
+
+  &.compact {
+    @apply m-0 min-h-20 w-full;
   }
 }
 
@@ -88,5 +154,32 @@
 
   .activity-copy {
     @apply leading-[1.45];
+  }
+
+  .activity-row {
+    @apply grid;
+    grid-template-columns: auto minmax(0, 1fr);
+
+    time {
+      grid-column: 2;
+    }
+  }
+
+  .section-empty {
+    @apply flex-wrap items-start;
+
+    > a {
+      @apply ml-12;
+    }
+  }
+}
+
+@media (max-width: 380px) {
+  .stats-grid {
+    @apply grid-cols-1;
+  }
+
+  .section-heading {
+    @apply items-start;
   }
 }

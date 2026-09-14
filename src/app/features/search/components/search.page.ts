@@ -1,7 +1,13 @@
 import { Component, DestroyRef, computed, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { IonContent, IonIcon, IonSearchbar, IonSpinner } from '@ionic/angular/standalone';
+import {
+  IonButton,
+  IonContent,
+  IonIcon,
+  IonSearchbar,
+  IonSpinner,
+} from '@ionic/angular/standalone';
 import { injectQuery } from '@tanstack/angular-query-experimental';
 import { DocumentFileType } from '../../documents/types';
 import { DocumentQueries } from '../../documents/queries';
@@ -14,7 +20,7 @@ interface HighlightPart {
 @Component({
   selector: 'app-search-page',
   standalone: true,
-  imports: [RouterLink, IonContent, IonIcon, IonSearchbar, IonSpinner],
+  imports: [RouterLink, IonButton, IonContent, IonIcon, IonSearchbar, IonSpinner],
   templateUrl: './search.page.html',
   styleUrl: './search.page.scss',
 })

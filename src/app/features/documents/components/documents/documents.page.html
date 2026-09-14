@@ -78,11 +78,17 @@
     </div>
 
     @if (documentsQuery.isPending()) {
-      <div class="empty-state" role="status" aria-live="polite">
-        <ion-spinner name="crescent" /> Loading documents…
+      <div class="request-state" role="status" aria-live="polite">
+        <ion-spinner name="crescent" />
+        <p>Loading documents…</p>
       </div>
     } @else if (documentsQuery.isError()) {
-      <div class="empty-state">Unable to load documents.</div>
+      <div class="request-state request-state-error" role="alert">
+        <ion-icon name="alert-circle-outline" aria-hidden="true" />
+        <h2>Unable to load documents</h2>
+        <p>We couldn't retrieve the library.</p>
+        <ion-button size="small" (click)="documentsQuery.refetch()">Try again</ion-button>
+      </div>
     } @else if (paged().length) {
       @if (view() === 'grid') {
         <div class="document-grid">
@@ -120,7 +126,11 @@
         </div>
       }
     } @else {
-      <div class="empty-state">No documents match your filters.</div>
+      <div class="request-state">
+        <ion-icon name="search-outline" aria-hidden="true" />
+        <h2>No documents found</h2>
+        <p>Try a different search or remove one of the filters.</p>
+      </div>
     }
 
     @if (totalPages() > 1) {

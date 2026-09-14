@@ -3,7 +3,14 @@
 }
 
 .document-card {
-  @apply flex min-h-[205px] flex-col rounded-xl border border-solid border-app-border bg-app-card p-4 transition duration-150 hover:-translate-y-px hover:shadow-card;
+  @apply flex min-h-[205px] flex-col rounded-xl border border-solid border-app-border;
+  @apply bg-app-card p-4 transition hover:-translate-y-px;
+  transition-duration: var(--motion-fast);
+  transition-timing-function: var(--ease-out);
+
+  &:hover {
+    border-color: color-mix(in srgb, var(--primary) 28%, var(--border));
+  }
 }
 
 .card-topline,
@@ -31,7 +38,8 @@ ion-button {
   --padding-start: 0.45rem;
   --padding-end: 0.45rem;
   --color: var(--app-muted-text);
-  min-height: 32px;
+  min-width: 44px;
+  min-height: 44px;
 }
 
 ion-spinner {
@@ -60,10 +68,10 @@ ion-spinner {
 }
 
 .card-footer {
-  @apply mt-auto pt-4 text-[0.7rem] text-app-muted;
+  @apply mt-auto pt-4 text-xs text-app-muted;
 
   ion-chip {
-    @apply m-0 h-[25px] bg-app-accent px-2.5 text-[0.7rem] text-app-text;
+    @apply m-0 h-7 bg-app-accent px-2.5 text-xs text-app-text;
   }
 }
 
@@ -89,7 +97,7 @@ ion-spinner {
   }
 
   small {
-    @apply mt-0.5 hidden text-[0.72rem] text-app-muted;
+    @apply mt-0.5 hidden text-xs text-app-muted;
   }
 }
 

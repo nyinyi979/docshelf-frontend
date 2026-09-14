@@ -74,7 +74,7 @@ ion-modal {
 }
 
 .tag-picker button {
-  @apply cursor-pointer rounded-full border border-app-border border-solid bg-transparent px-3 py-1.5 text-[0.72rem] text-app-text transition hover:bg-app-accent-soft;
+  @apply cursor-pointer rounded-full border border-app-border border-solid bg-transparent px-3 py-1.5 text-xs text-app-text transition hover:bg-app-accent-soft;
 
   &.active {
     @apply border-primary bg-primary text-primary-contrast;

@@ -7,13 +7,14 @@
       </div>
     } @else if (categoriesQuery.isError() || documentsQuery.isError()) {
       <div class="request-state request-state-error" role="alert">
-        <ion-icon name="alert-circle-outline" />
+        <ion-icon name="alert-circle-outline" aria-hidden="true" />
         <h2>Unable to load categories</h2>
-        <p>Please try again.</p>
+        <p>We couldn't retrieve the category list.</p>
+        <ion-button size="small" (click)="retry()">Try again</ion-button>
       </div>
     } @else if (categories().length === 0) {
       <div class="request-state">
-        <ion-icon name="folder-open-outline" />
+        <ion-icon name="folder-open-outline" aria-hidden="true" />
         <h2>No categories yet</h2>
       </div>
     } @else {

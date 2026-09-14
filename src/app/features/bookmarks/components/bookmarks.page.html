@@ -1,19 +1,20 @@
 <ion-content class="app-page">
   <div class="page-container page-stack bookmarks-page">
     @if (bookmarksQuery.isPending()) {
-      <div class="bookmarks-loading" role="status" aria-live="polite">
+      <div class="request-state" role="status" aria-live="polite">
         <ion-spinner name="crescent" />
         <p>Loading bookmarks…</p>
       </div>
     } @else if (bookmarksQuery.isError()) {
-      <div class="empty-bookmarks request-state-error" role="alert">
-        <ion-icon name="alert-circle-outline" />
+      <div class="request-state request-state-error" role="alert">
+        <ion-icon name="alert-circle-outline" aria-hidden="true" />
         <h2>Unable to load bookmarks</h2>
-        <p>Please try again.</p>
+        <p>We couldn't retrieve your saved documents.</p>
+        <ion-button size="small" (click)="bookmarksQuery.refetch()">Try again</ion-button>
       </div>
     } @else if (bookmarkedDocuments().length === 0) {
-      <div class="empty-bookmarks">
-        <ion-icon name="bookmark-outline" />
+      <div class="request-state">
+        <ion-icon name="bookmark-outline" aria-hidden="true" />
         <h2>No bookmarks yet</h2>
         <p>Bookmark documents to quickly find them later.</p>
         <ion-button routerLink="/documents">Browse documents</ion-button>

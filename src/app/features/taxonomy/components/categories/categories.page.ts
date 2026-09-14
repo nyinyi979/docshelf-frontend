@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { IonContent, IonIcon, IonSpinner } from '@ionic/angular/standalone';
+import { IonButton, IonContent, IonIcon, IonSpinner } from '@ionic/angular/standalone';
 import { injectQuery } from '@tanstack/angular-query-experimental';
 import { DocumentQueries } from '../../../documents/queries';
 import { TaxonomyQueries } from '../../queries';
@@ -8,7 +8,7 @@ import { TaxonomyQueries } from '../../queries';
 @Component({
   selector: 'app-categories-page',
   standalone: true,
-  imports: [RouterLink, IonContent, IonIcon, IonSpinner],
+  imports: [RouterLink, IonButton, IonContent, IonIcon, IonSpinner],
   templateUrl: './categories.page.html',
   styleUrl: './categories.page.scss',
 })
@@ -26,5 +26,10 @@ export class CategoriesPage {
     return this.documents()
       .filter((document) => document.category === name)
       .slice(0, 4);
+  }
+
+  retry(): void {
+    void this.categoriesQuery.refetch();
+    void this.documentsQuery.refetch();
   }
 }

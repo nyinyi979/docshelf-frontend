@@ -3,6 +3,7 @@ import { RouterOutlet } from '@angular/router';
 import { IonApp } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import {
+  alertCircleOutline,
   arrowBackOutline,
   arrowForwardOutline,
   bookmark,
@@ -21,6 +22,7 @@ import {
   fileTrayFullOutline,
   folderOpenOutline,
   gridOutline,
+  helpCircleOutline,
   homeOutline,
   listOutline,
   logOutOutline,
@@ -43,6 +45,7 @@ import {
 export class App {
   constructor() {
     addIcons({
+      alertCircleOutline,
       arrowBackOutline,
       arrowForwardOutline,
       bookmark,
@@ -61,6 +64,7 @@ export class App {
       fileTrayFullOutline,
       folderOpenOutline,
       gridOutline,
+      helpCircleOutline,
       homeOutline,
       listOutline,
       logOutOutline,

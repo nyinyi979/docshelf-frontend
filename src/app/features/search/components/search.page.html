@@ -28,10 +28,11 @@
         <h2>Searching…</h2>
       </div>
     } @else if (resultsQuery.isError()) {
-      <div class="empty-search">
-        <ion-icon name="alert-circle-outline" />
+      <div class="request-state request-state-error" role="alert">
+        <ion-icon name="alert-circle-outline" aria-hidden="true" />
         <h2>Search unavailable</h2>
-        <p>Please try again.</p>
+        <p>We couldn't retrieve search results.</p>
+        <ion-button size="small" (click)="resultsQuery.refetch()">Try again</ion-button>
       </div>
     } @else if (!query().trim()) {
       <section>
